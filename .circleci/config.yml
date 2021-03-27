@@ -11,7 +11,7 @@ aliases:
 
   install_node_modules: &install_node_modules
     run:
-      command: yarn install
+      command: yarn install && yarn format:check
   save_cache: &save_cache
     save_cache:
       key: yarn-cache-netlify-{{ checksum "yarn.lock" }}
@@ -31,7 +31,7 @@ jobs:
       - <<: *save_cache
       - run:
           name: Test
-          command: yarn run test && yarn format:check
+          command: yarn run test
   build:
     executor: node
     steps:
@@ -45,6 +45,21 @@ jobs:
           root: ./
           paths:
             - public
+  deploy:
+    executor: node
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ./
+      - <<: *restore_cache
+      - <<: *install_node_modules
+      - run:
+          name: Install netlify-cli
+          command: sudo yarn install -g --silent netlify-cli
+      - run:
+          name: Deploy to Netlify
+          command: netlify deploy --dir=./public -p
+
 workflows:
   test_build_and_deploy:
     jobs:
@@ -56,3 +71,9 @@ workflows:
       - build:
           requires:
             - test
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: main
