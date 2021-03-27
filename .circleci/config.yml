@@ -83,9 +83,12 @@ workflows:
             branches:
               ignore:
                 - gh-pages
-      - build:
+      - check_format :
           requires:
             - test
+      - build:
+          requires:
+            - check_format
       - deploy:
           requires:
             - build
