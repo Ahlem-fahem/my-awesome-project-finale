@@ -65,7 +65,7 @@ jobs:
           command: yarn global add netlify-cli
       - run:
           name: Deploy to Netlify
-          command: netlify deploy --dir=./public -p
+          command: yarn run build && npm run netlify:deploy
 
 
 
