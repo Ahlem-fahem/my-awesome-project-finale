@@ -32,7 +32,6 @@ jobs:
       - <<: *restore_cache
       - <<: *install_node_modules
       - <<: *save_cache
-      - <<: *check-formatting
       - run:
           name: Test
           command: yarn run test
@@ -44,7 +43,7 @@ jobs:
       - <<: *install_node_modules
       - run:
           name: Build
-          command: yarn run build
+          command: yarn run build && yarn format:check
       - persist_to_workspace:
           root: ./
           paths:
