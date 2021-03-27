@@ -29,6 +29,7 @@ jobs:
     executor: node
     steps:
       - checkout
+      - <<: *check_formatting
       - <<: *restore_cache
       - <<: *install_node_modules
       - <<: *save_cache
@@ -39,7 +40,6 @@ jobs:
     executor: node
     steps:
       - checkout
-      - <<: *check_formatting
       - <<: *restore_cache
       - <<: *install_node_modules
       - run:
