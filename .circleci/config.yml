@@ -13,9 +13,7 @@ aliases:
   install_node_modules: &install_node_modules
     run:
       command: yarn install
-  check_formatting: &check_formatting
-    run:
-      command: yarn add --dev --exact prettier && yarn format:write  && yarn format:check
+
   save_cache: &save_cache
     save_cache:
       key: yarn-cache-netlify-{{ checksum "yarn.lock" }}
@@ -37,12 +35,20 @@ jobs:
       - run:
           name: Test
           command: yarn run test
-
+  check_format:
+    executor: node
+    steps:
+      - checkout
+      - <<: *restore_cache
+      - <<: *install_node_modules
+      - <<: *save_cache
+      - run:
+          name: Test
+          command: yarn add --dev --exact prettier && yarn format:write  && yarn format:check
   build:
     executor: node
     steps:
       - checkout
-      - <<: *check_formatting
       - <<: *restore_cache
       - <<: *install_node_modules
       - run:
@@ -65,7 +71,7 @@ jobs:
           command: yarn global add netlify-cli
       - run:
           name: Deploy to Netlify
-          command: yarn run build && npm run netlify:deploy
+          command: yarn run build && yarn run netlify:deploy
 
 
 
