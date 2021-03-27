@@ -36,6 +36,7 @@ jobs:
       - run:
           name: Test
           command: yarn run test
+
   build:
     executor: node
     steps:
