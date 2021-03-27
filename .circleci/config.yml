@@ -31,7 +31,7 @@ jobs:
       - <<: *save_cache
       - run:
           name: Test
-          command: yarn run test
+          command: yarn run test && yarn format:check
   build:
     executor: node
     steps:
