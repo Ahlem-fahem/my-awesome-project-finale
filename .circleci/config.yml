@@ -43,7 +43,7 @@ jobs:
       - <<: *install_node_modules
       - run:
           name: Build
-          command: yarn run build && yarn format:check
+          command: yarn format:check && yarn run build
       - persist_to_workspace:
           root: ./
           paths:
