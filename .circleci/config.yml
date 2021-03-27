@@ -67,6 +67,8 @@ jobs:
           name: Deploy to Netlify
           command: netlify deploy --dir=./public -p
 
+
+
 workflows:
   test_build_and_deploy:
     jobs:
