@@ -11,7 +11,10 @@ aliases:
 
   install_node_modules: &install_node_modules
     run:
-      command: yarn install && yarn format:check
+      command: yarn install
+  check-formatting: &check-formatting
+    steps:
+      - run: yarn format:check
   save_cache: &save_cache
     save_cache:
       key: yarn-cache-netlify-{{ checksum "yarn.lock" }}
@@ -29,6 +32,7 @@ jobs:
       - <<: *restore_cache
       - <<: *install_node_modules
       - <<: *save_cache
+      - <<: *check-formatting
       - run:
           name: Test
           command: yarn run test
