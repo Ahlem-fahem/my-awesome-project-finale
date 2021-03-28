@@ -1,3 +1,13 @@
+# Realised Work:
+
+### The hosted project url :
+https://my-awesome-project-finale.netlify.app/
+
+### All jobs are okay:
+* Only the main branch is deployed to netlify
+* In the Circleci, Deploy job is only running if the target branch is "main"
+* Other jobs are running for all branches
+
 # Available Scripts
 
 In the project directory, you can run:
